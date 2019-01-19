@@ -41,10 +41,6 @@ RUN wget https://dl.grafana.com/oss/release/grafana_5.4.3_armhf.deb
 
 RUN sudo dpkg -i grafana_5.4.3_armhf.deb
 
-RUN influxd&
-
-RUN influx -execute "create database tesla"
-
 RUN cd /var/lib/grafana/plugins
 
 RUN git clone https://github.com/pR0Ps/grafana-trackmap-panel
@@ -64,6 +60,9 @@ RUN git clone https://github.com/lephisto/tesla-apiscraper
 RUN pip install influxdb
 
 RUN [ "cross-build-end" ]
+
+ADD entrypoint.sh /root/entrypoint.sh
+ADD tesla.yaml /usr/share/grafana/conf/provisioning/dashboards/tesla.yaml
 
 VOLUME ["/var/lib/grafana"]
 VOLUME ["/var/lib/influxdb"]
