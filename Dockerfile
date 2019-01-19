@@ -16,7 +16,7 @@ RUN [ "cross-build-start" ]
 ## BASICS
 RUN apt update
 
-RUN apt install \
+RUN apt install --yes --force-yes \
     apt-transport-https \
     gnupg2 \
     curl \
@@ -37,15 +37,16 @@ RUN apt install --yes --force-yes \
     influxdb \
     python-pip
 
+WORKDIR /root
 RUN wget https://dl.grafana.com/oss/release/grafana_5.4.3_armhf.deb
 
 RUN sudo dpkg -i grafana_5.4.3_armhf.deb
 
-RUN cd /var/lib/grafana/plugins
+WORKDIR /var/lib/grafana/plugins
 
 RUN git clone https://github.com/pR0Ps/grafana-trackmap-panel
 
-RUN cd grafana-trackmap-panel
+WORKDIR /var/lib/grafana/plugins/grafana-trackmap-panel
 
 RUN git checkout releases
 
@@ -53,7 +54,7 @@ RUN grafana-cli plugins install natel-discrete-panel
 
 ##TESLA APISCRAPER
 
-RUN cd /opt
+WORKDIR /opt
 
 RUN git clone https://github.com/lephisto/tesla-apiscraper
 
@@ -62,11 +63,12 @@ RUN pip install influxdb
 RUN [ "cross-build-end" ]
 
 ADD entrypoint.sh /root/entrypoint.sh
-ADD tesla.yaml /usr/share/grafana/conf/provisioning/dashboards/tesla.yaml
+ADD tesla.yaml /etc/grafana/provisioning/dashboards/tesla.yaml
 
-VOLUME ["/var/lib/grafana"]
-VOLUME ["/var/lib/influxdb"]
-VOLUME ["/opt/tesla-apiscraper/config.py"]
+##These locations need to be saved for backup purposes
+## VOLUME ["/var/lib/grafana"]
+## VOLUME ["/var/lib/influxdb"]
+## VOLUME ["/opt/tesla-apiscraper/config.py"]
 
 EXPOSE 3000
 
