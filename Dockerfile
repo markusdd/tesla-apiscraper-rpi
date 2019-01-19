@@ -60,11 +60,12 @@ RUN git clone https://github.com/lephisto/tesla-apiscraper
 RUN pip install influxdb
 
 ADD entrypoint.sh /root/entrypoint.sh
-ADD tesla.yaml /usr/share/grafana/conf/provisioning/dashboards/tesla.yaml
+ADD tesla.yaml /etc/grafana/provisioning/dashboards/tesla.yaml
 
-VOLUME ["/var/lib/grafana"]
-VOLUME ["/var/lib/influxdb"]
-VOLUME ["/opt/tesla-apiscraper/config.py"]
+##These locations need to be saved for backup purposes
+## VOLUME ["/var/lib/grafana"]
+## VOLUME ["/var/lib/influxdb"]
+## VOLUME ["/opt/tesla-apiscraper/config.py"]
 
 EXPOSE 3000
 
