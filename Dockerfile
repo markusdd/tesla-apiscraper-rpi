@@ -1,4 +1,4 @@
-FROM balenalib/rpi-debian:jessie-build
+FROM balenalib/armv7hf-debian
 MAINTAINER markusdd
 
 ARG BUILD_DATE
@@ -40,7 +40,7 @@ RUN apt install --yes --force-yes \
 WORKDIR /root
 RUN wget https://dl.grafana.com/oss/release/grafana_5.4.3_armhf.deb
 
-RUN sudo dpkg -i grafana_5.4.3_armhf.deb
+RUN dpkg -i grafana_5.4.3_armhf.deb
 
 WORKDIR /var/lib/grafana/plugins
 
@@ -60,10 +60,11 @@ RUN git clone https://github.com/lephisto/tesla-apiscraper
 
 RUN pip install influxdb
 
-RUN [ "cross-build-end" ]
 
 ADD entrypoint.sh /root/entrypoint.sh
 ADD tesla.yaml /etc/grafana/provisioning/dashboards/tesla.yaml
+
+RUN [ "cross-build-end" ]
 
 ##These locations need to be saved for backup purposes
 ## VOLUME ["/var/lib/grafana"]
