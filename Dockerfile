@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM balenalib/rpi-debian:stretch-build
 MAINTAINER markusdd
 
 ARG BUILD_DATE
