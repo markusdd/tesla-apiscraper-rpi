@@ -1,4 +1,4 @@
-FROM balenalib/rpi-debian:stretch-build
+FROM balenalib/rpi-debian:jessie-build
 MAINTAINER markusdd
 
 ARG BUILD_DATE
