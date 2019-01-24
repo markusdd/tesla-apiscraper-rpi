@@ -8,7 +8,7 @@ if [ ! -f /opt/tesla-apiscraper/config.py ]; then
 fi
 
 influxd&
-sleep 10
+sleep 30
 # this is safe as influx will not override if the datbase already exists
 influx -execute "create database tesla"
 cd /usr/share/grafana/
