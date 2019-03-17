@@ -39,25 +39,23 @@ RUN apt install --yes --force-yes \
 
 WORKDIR /root
 RUN wget https://dl.grafana.com/oss/release/grafana_5.4.3_armhf.deb
-
 RUN dpkg -i grafana_5.4.3_armhf.deb
+RUN git clone https://github.com/tkrajina/srtm.py
+
+WORKDIR /root/srtm.py
+RUN python ./setup.py install --user
 
 WORKDIR /var/lib/grafana/plugins
-
 RUN git clone https://github.com/pR0Ps/grafana-trackmap-panel
 
 WORKDIR /var/lib/grafana/plugins/grafana-trackmap-panel
-
 RUN git checkout releases
-
 RUN grafana-cli plugins install natel-discrete-panel
 
 ##TESLA APISCRAPER
 
 WORKDIR /opt
-
 RUN git clone https://github.com/lephisto/tesla-apiscraper
-
 RUN pip install influxdb
 
 
