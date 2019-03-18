@@ -41,6 +41,7 @@ WORKDIR /root
 RUN wget https://dl.grafana.com/oss/release/grafana_5.4.3_armhf.deb
 RUN dpkg -i grafana_5.4.3_armhf.deb
 RUN git clone https://github.com/tkrajina/srtm.py
+RUN pip install pathlib
 
 WORKDIR /root/srtm.py
 RUN python ./setup.py install --user
